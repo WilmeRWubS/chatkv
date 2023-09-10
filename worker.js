@@ -24,12 +24,12 @@ async function handleRequest(request) {
     const htmlResponse = `
       <html>
         <body>
-          <h1>Chat Value</h1>
-          <p>Current Chat Value: ${chat ? chat.toString() : 'No chat value found'}</p>
+          <h1>Whatsweb</h1>
+          <p>Huidig gesprek: ${chat ? chat.toString() : 'Er is nog niet gechat'}</p>
           <form method="POST">
-            <label for="chat">New Chat Value:</label>
+            <label for="chat">Nieuw chat bericht:</label>
             <input type="text" id="chat" name="chat" required>
-            <button type="submit">Update Chat</button>
+            <button type="submit">Verzenden</button>
           </form>
         </body>
       </html>
