@@ -8,9 +8,16 @@ async function handleRequest(request) {
     // Parse the request body as form data
     const formData = await readRequestBody(request);
 
-    // Extract the new chat value from the form data and add a timestamp in the Amsterdam timezone
+    // Extract the username and new chat value from the form data
+    const username = formData.get('username');
+    const message = formData.get('chat');
+
+    if (!username || !message) {
+      return new Response('Username and message are required.', { status: 400 });
+    }
+
+    // Create a timestamp in the Amsterdam timezone
     const amsterdamTime = new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' });
-    const newChatValue = `${amsterdamTime}: ${formData.get('chat')}`;
 
     // Retrieve the current chat history from the KV
     let chat = await KV.get("chat");
@@ -20,35 +27,52 @@ async function handleRequest(request) {
       chat = '';
     }
 
-    // Append the new message to the chat history with a newline delimiter
-    chat = chat ? chat + '\n' + newChatValue : newChatValue;
+    // Create a new chat message with username, message, and timestamp
+    const newChatValue = `${username}: ${message}\n${amsterdamTime}`;
+
+    // Append the new message to the chat history with a double newline delimiter
+    chat = chat ? chat + '\n\n' + newChatValue : newChatValue;
 
     // Update the KV with the updated chat history
     await KV.put("chat", chat);
 
-    // Return a success response
-    return new Response('Chat value updated successfully!', { status: 200 });
+    // Return a success response with a JavaScript redirect to the same page
+    const redirectHtmlResponse = `
+      <html>
+        <body>
+          <script>
+            // Redirect back to the chat page after submitting the form
+            window.location.href = "/";
+          </script>
+        </body>
+      </html>
+    `;
+    return new Response(redirectHtmlResponse, { headers: { 'Content-Type': 'text/html' }, status: 200 });
   } else {
     // If the request method is not POST, retrieve the current chat history from the KV
     const chat = await KV.get("chat");
 
-    // Split the chat history into an array of messages based on newline delimiter
-    const chatHistory = chat ? chat.split('\n') : [];
+    // Split the chat history into an array of messages based on a double newline delimiter
+    const chatHistory = chat ? chat.split('\n\n') : [];
 
-    // Create an HTML response to display messages without list bullet points
+    // Create an HTML response to display messages with proper formatting
     const htmlResponse = `
       <html>
         <body>
           <h1>Whatsweb</h1>
           <p>Huidig gesprek:</p>
-          <div>
-            ${chatHistory.map(message => `<p>${message}</p>`).join('')}
-          </div>
-          <form method="POST">
+          <iframe id="chat-iframe" srcdoc="${chatHistory.map(message => `<p>${message.replace('\n', '<br>')}</p>`).join('')}"></iframe>
+          <form method="POST" action="/">
+            <label for="username">Gebruikersnaam:</label>
+            <input type="text" id="username" name="username" required><br>
             <label for="chat">Nieuw chat bericht:</label>
             <input type="text" id="chat" name="chat" required>
             <button type="submit">Verzenden</button>
           </form>
+          <script>
+            // JavaScript to clear the chat message input field
+            document.getElementById('chat').value = '';
+          </script>
         </body>
       </html>
     `;
