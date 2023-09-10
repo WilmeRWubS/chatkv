@@ -29,7 +29,7 @@ async function handleRequest(request) {
           <meta content='width=device-width, initial-scale=1' name='viewport'/>
         </head>
         <body>
-          <h1>Whatsweb</h1>
+          <h1>WhatsWeb</h1>
           <iframe id="chat-iframe" srcdoc="${chatHistory.map(message => `<p>${message.replace('\n', '<br>')}</p>`).join('')}"></iframe>
           
           <form method="POST" action="/">
