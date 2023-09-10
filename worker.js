@@ -2,18 +2,19 @@ addEventListener('fetch', (event) => {
   event.respondWith(handleRequest(event.request));
 });
 
+let username; // Declare a variable to store the username
+
 async function handleRequest(request) {
   // Check if the request method is POST
   if (request.method === 'POST') {
     // Parse the request body as form data
     const formData = await readRequestBody(request);
 
-    // Extract the username and new chat value from the form data
-    const username = formData.get('username');
+    // Extract the new chat value from the form data
     const message = formData.get('chat');
 
-    if (!username || !message) {
-      return new Response('Username and message are required.', { status: 400 });
+    if (!message) {
+      return new Response('Message is required.', { status: 400 });
     }
 
     // Create a timestamp in the Amsterdam timezone
@@ -27,8 +28,8 @@ async function handleRequest(request) {
       chat = '';
     }
 
-    // Create a new chat message with username, message, and timestamp
-    const newChatValue = `${username}: ${message}\n${amsterdamTime}`;
+    // Create a new chat message with username (if available), message, and timestamp
+    const newChatValue = `${username ? username + ': ' : ''}${message}\n${amsterdamTime}`;
 
     // Append the new message to the chat history with a double newline delimiter
     chat = chat ? chat + '\n\n' + newChatValue : newChatValue;
@@ -64,7 +65,7 @@ async function handleRequest(request) {
           <iframe id="chat-iframe" srcdoc="${chatHistory.map(message => `<p>${message.replace('\n', '<br>')}</p>`).join('')}"></iframe>
           <form method="POST" action="/">
             <label for="username">Gebruikersnaam:</label>
-            <input type="text" id="username" name="username" required><br>
+            <input type="text" id="username" name="username" required ${username ? 'readonly' : ''} value="${username || ''}"><br>
             <label for="chat">Nieuw chat bericht:</label>
             <input type="text" id="chat" name="chat" required>
             <button type="submit">Verzenden</button>
@@ -86,5 +87,6 @@ async function handleRequest(request) {
 async function readRequestBody(request) {
   const requestBody = await request.text();
   const formData = new URLSearchParams(requestBody);
+  username = formData.get('username'); // Update the username variable
   return formData;
 }
