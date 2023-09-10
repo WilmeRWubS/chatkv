@@ -43,7 +43,7 @@ async function handleRequest(request) {
           <form method="POST" action="/clear-chat">
             <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit">Verwijder chat</button>
+            <button type="submit">Verwijder huidig gesprek</button>
           </form>
           
           <script>
@@ -127,9 +127,9 @@ async function clearChat(request) {
     await KV.put('chat', '');
 
     // Return a success response
-    return new Response('Chat history has been cleared.', { status: 200 });
+    return new Response('Gesprek verwijderd.', { status: 200 });
   } else {
     // Return an error response if the password is incorrect
-    return new Response('Incorrect password. Chat history not cleared.', { status: 401 });
+    return Response.redirect('https://youtu.be/dQw4w9WgXcQ', 302);
   }
 }
