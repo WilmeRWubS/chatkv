@@ -59,6 +59,89 @@ async function handleRequest(request) {
     // Create an HTML response to display messages with proper formatting
     const htmlResponse = `
       <html>
+      <head>
+      </head>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f5f5f5;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+        }
+
+        h1 {
+          color: #075e54;
+          font-size: 24px;
+          margin-bottom: 10px;
+        }
+    
+        p {
+          color: #777;
+          font-size: 16px;
+        }
+    
+        #chat-iframe {
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          width: 100%;
+          height: 300px;
+          overflow-y: scroll;
+          margin: 10px 0;
+          padding: 10px;
+          background-color: #fff;
+        }
+    
+        form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 10px;
+        }
+    
+        label {
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+    
+        input[type="text"] {
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          width: 100%;
+          font-size: 16px;
+        }
+    
+        button {
+          padding: 10px 20px;
+          background-color: #075e54;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+    
+        button:hover {
+          background-color: #128c7e;
+        }
+    
+        /* Style for readonly username input */
+        input[readonly] {
+          background-color: #eee;
+          cursor: not-allowed;
+        }
+    
+        /* Style for chat message paragraphs */
+        #chat-iframe p {
+          margin: 5px 0;
+        }
+      </style>
         <body>
           <h1>Whatsweb</h1>
           <p>Huidig gesprek:</p>
