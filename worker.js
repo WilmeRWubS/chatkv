@@ -22,11 +22,16 @@ async function handleRequest(request) {
     // Split the chat history into an array of messages based on a double newline delimiter
     const chatHistory = chat ? chat.split('\n\n') : [];
 
+    const cssContent = await KV.get('styles.css');
+
     // Create an HTML response to display messages with proper formatting
     const htmlResponse = `
       <html>
         <head>
           <meta content='width=device-width, initial-scale=1' name='viewport'/>
+          <style>
+            ${cssContent || ''}
+          </style>
         </head>
         <body>
           <h1>WhatsWeb</h1>
@@ -127,7 +132,7 @@ async function clearChat(request) {
     await KV.put('chat', '');
 
     // Return a success response
-    return new Response('Gesprek verwijderd.', { status: 200 });
+    return new Response('Chat history has been cleared.', { status: 200 });
   } else {
     // Return an error response if the password is incorrect
     return Response.redirect('https://youtu.be/dQw4w9WgXcQ', 302);
