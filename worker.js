@@ -41,11 +41,15 @@ async function handleRequest(request) {
           <h1>WhatsWeb</h1>
           <iframe id="chat-iframe" srcdoc="${chatHistory.map(message => `<p>${message.replace('\n', '<br>')}</p>`).join('')}"></iframe>
           
-          <form method="POST" action="/">
-            <label for="username">Gebruikersnaam:</label>
-            <input type="text" id="username" name="username" required ${username ? 'readonly' : ''} value="${username || ''}"><br>
-            <label for="chat">Nieuw chat bericht:</label>
-            <input type="text" id="chat" name="chat" required>
+          <form method="POST" action="/" class="chat-form">
+            <div class="form-row">
+              <label for="username">Gebruikersnaam:</label>
+              <input type="text" id="username" name="username" required ${username ? 'readonly' : ''} value="${username || ''}">
+            </div>
+            <div class="form-row">
+              <label for="chat">Nieuw chat bericht:</label>
+              <input type="text" id="chat" name="chat" required>
+            </div>
             <button type="submit">Verstuur</button>
           </form>
           
