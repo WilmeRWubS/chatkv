@@ -12,6 +12,10 @@ async function handleRequest(request) {
       // Handle the request to clear the chat
       return clearChat(request);
     }
+    if (request.url.endsWith('/save-chat')) {
+      // Handle the request to save the chat
+      return saveChat(request);
+    }
 
     // Handle the regular chat message submission
     return handleChatMessage(request);
@@ -49,6 +53,10 @@ async function handleRequest(request) {
             <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Verwijder huidig gesprek</button>
+          </form>
+
+          <form method="POST" action="/save-chat">
+            <button type="submit">Opslaan huidig gesprek</button>
           </form>
           
           <script>
@@ -115,6 +123,41 @@ async function handleChatMessage(request) {
     </html>
   `;
   return new Response(redirectHtmlResponse, { headers: { 'Content-Type': 'text/html' }, status: 200 });
+}
+
+async function saveChat(request) {
+  // Retrieve the current chat history from the KV
+  const chat = await KV.get('chat');
+
+  if (!chat) {
+    // If there's no existing chat history, return an error response
+    return new Response('No chat history to save.', { status: 400 });
+  }
+
+  // Create a timestamp with Dutch/Amsterdam time zone
+  const amsterdamTimezone = 'Europe/Amsterdam';
+  const now = new Date().toLocaleString('nl-NL', { timeZone: amsterdamTimezone });
+
+  // Extract date and time components
+  const [date, time] = now.split(', ');
+
+  // Define the key for storing the saved chat with the timestamp
+  const timestamp = `${date} ${time}`;
+
+  // Define a format for the date in "12-9-2023" format
+  const dateFormat = 'D-M-YYYY';
+
+  // Reformat the date to match the specified format
+  const formattedDate = date
+    .split('/')
+    .map((component, index) => (dateFormat[index] === 'D' ? component : component.padStart(2, '0')))
+    .join('-');
+
+  // Store the current chat in KV with the specified key
+  await KV.put(`saved-chat-${formattedDate}`, chat);
+
+  // Return a success response
+  return new Response('Chat has been saved.', { status: 200 });
 }
 
 async function clearChat(request) {
