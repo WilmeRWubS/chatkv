@@ -13,12 +13,17 @@ body {
 }
 
 #sidebar {
-  width: 200px;
+  width: 75px;
   background-color: #f0f0f0;
   padding: 10px;
   position: fixed;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
 
 #content {
   flex-grow: 1;
