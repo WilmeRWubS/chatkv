@@ -38,6 +38,19 @@ async function handleRequest(request) {
           </style>
         </head>
         <body>
+        <div id="sidebar">
+          <form method="POST" action="/clear-chat" class="chat-form">
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Clear chat</button>
+          </form>
+
+          <form method="POST" action="/save-chat" class="chat-form">
+            <input type="password" id="password-save" name="password" required>
+            <button type="submit">Save chat</button>
+          </form>
+        </div>
+        <div id="container">
+        <div id="content">
           <h1>WhatsWeb</h1>
           <iframe id="chat-iframe" srcdoc="${chatHistory.map(message => `<p>${message.replace('\n', '<br>')}</p>`).join('')}"></iframe>
           
@@ -52,16 +65,8 @@ async function handleRequest(request) {
             </div>
             <button type="submit">Verstuur</button>
           </form>
-          
-          <form method="POST" action="/clear-chat">
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Verwijder huidig gesprek</button>
-          </form>
-
-          <form method="POST" action="/save-chat">
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Opslaan huidig gesprek</button>
-          </form>
+        </div>
+        </div>
           
           <script>
             // JavaScript to clear the chat message input field
