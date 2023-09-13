@@ -122,3 +122,28 @@ input[readonly] {
 #chat-iframe p {
   margin: 5px 0;
 }
+
+@media (max-width: 768px) {
+  #container {
+    flex-direction: column-reverse;
+  }
+
+  #sidebar {
+    position: absolute;
+    width: 95%;
+    height: 5%;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: row;
+  }
+
+  #content {
+    align-items: center;
+  }
+
+  #chat-iframe {
+    max-width: 100%;
+    width: auto;
+    height: 400px;
+  }
+}
