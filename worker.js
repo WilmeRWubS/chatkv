@@ -27,6 +27,8 @@ async function handleRequest(request) {
     const chatHistory = chat ? chat.split('\n\n') : [];
 
     const cssContent = await KV.get('styles.css');
+    const backupsvg = await KV.get('backup');
+    const clearsvg = await KV.get('clear');
 
     // Create an HTML response to display messages with proper formatting
     const htmlResponse = `
@@ -42,12 +44,12 @@ async function handleRequest(request) {
         <div id="sidebar">
           <form method="POST" action="/clear-chat" class="chat-form">
             <input type="password" id="password" name="password" required placeholder="Enter pin">
-            <button type="submit">Clear chat</button>
+            <button type="submit" title="Gesprek verwijderen">${clearsvg}</button>
           </form>
 
           <form method="POST" action="/save-chat" class="chat-form">
             <input type="password" id="password-save" name="password" required placeholder="Enter pin">
-            <button type="submit">Save chat</button>
+            <button type="submit" title="Backup maken gesprek">${backupsvg}</button>
           </form>
         </div>
         <div id="content">
