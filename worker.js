@@ -38,6 +38,7 @@ async function handleRequest(request) {
           </style>
         </head>
         <body>
+        <div id="container">
         <div id="sidebar">
           <form method="POST" action="/clear-chat" class="chat-form">
             <input type="password" id="password" name="password" required>
@@ -49,7 +50,6 @@ async function handleRequest(request) {
             <button type="submit">Save chat</button>
           </form>
         </div>
-        <div id="container">
         <div id="content">
           <h1>WhatsWeb</h1>
           <iframe id="chat-iframe" srcdoc="${chatHistory.map(message => `<p>${message.replace('\n', '<br>')}</p>`).join('')}"></iframe>
