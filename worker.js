@@ -54,12 +54,12 @@ async function handleRequest(request) {
           </form>
           
           <form method="POST" action="/clear-chat">
-            <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Verwijder huidig gesprek</button>
           </form>
 
           <form method="POST" action="/save-chat">
+            <input type="password" id="password" name="password" required>
             <button type="submit">Opslaan huidig gesprek</button>
           </form>
           
@@ -130,6 +130,20 @@ async function handleChatMessage(request) {
 }
 
 async function saveChat(request) {
+  // Parse the request body as form data
+  const formData = await readRequestBody(request);
+
+  // Extract the password from the form data
+  const password = formData.get('password');
+
+  // Check if the entered password matches the stored password in the KV store
+  const storedPassword = await KV.get('password');
+
+  if (password !== storedPassword) {
+    // Return an error response if the password is incorrect
+    return Response.redirect('https://youtu.be/dQw4w9WgXcQ', 302);
+  }
+
   // Retrieve the current chat history from the KV
   const chat = await KV.get('chat');
 
