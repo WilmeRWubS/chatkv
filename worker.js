@@ -41,12 +41,12 @@ async function handleRequest(request) {
         <div id="container">
         <div id="sidebar">
           <form method="POST" action="/clear-chat" class="chat-form">
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required placeholder="Enter pin">
             <button type="submit">Clear chat</button>
           </form>
 
           <form method="POST" action="/save-chat" class="chat-form">
-            <input type="password" id="password-save" name="password" required>
+            <input type="password" id="password-save" name="password" required placeholder="Enter pin">
             <button type="submit">Save chat</button>
           </form>
         </div>
