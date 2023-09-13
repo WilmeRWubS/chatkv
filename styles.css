@@ -12,6 +12,11 @@ body {
   width: 100%;
 }
 
+.bigger-svg {
+  width: 30px;
+  height: 50px;
+}
+
 #sidebar {
   width: 60px;
   background-color: #f0f0f0;
