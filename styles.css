@@ -24,6 +24,17 @@ body {
   border-radius: 50%;
 }
 
+.button-up {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  z-index: 2;
+}
+
+.button-up {
+  transform: scale(0.5);
+}
+
 #sidebar {
   width: 60px;
   background-color: #f0f0f0;
