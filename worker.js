@@ -29,6 +29,7 @@ async function handleRequest(request) {
     const cssContent = await KV.get('styles.css');
     const backupsvg = await KV.get('backup');
     const clearsvg = await KV.get('clear');
+    const githubsvg = await KV.get('github')
 
     // Create an HTML response to display messages with proper formatting
     const htmlResponse = `
@@ -41,6 +42,7 @@ async function handleRequest(request) {
         </head>
         <body>
         <div id="container">
+        <a href="https://github.com" class="button-up">${githubsvg}</a>
         <div id="sidebar">
           <form method="POST" action="/clear-chat" class="chat-form">
             <input type="password" id="password" name="password" required placeholder="Enter pin">
