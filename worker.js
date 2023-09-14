@@ -42,7 +42,7 @@ async function handleRequest(request) {
         </head>
         <body>
         <div id="container">
-        <a href="https://github.com" class="button-up">${githubsvg}</a>
+        <a href="https://github.com/WilmeRWubS/chatkv" class="button-up">${githubsvg}</a>
         <div id="sidebar">
           <form method="POST" action="/clear-chat" class="chat-form">
             <input type="password" id="password" name="password" required placeholder="Enter pin">
