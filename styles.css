@@ -12,6 +12,10 @@ body {
   width: 100%;
 }
 
+textarea {
+  resize: none;
+}
+
 .side-button {
   width: 60px !important;
   height: 60px !important;
