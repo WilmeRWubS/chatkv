@@ -35,6 +35,7 @@ async function handleRequest(request) {
     const htmlResponse = `
       <html>
         <head>
+          <meta charset="UTF-8">
           <meta content='width=device-width, initial-scale=1' name='viewport'/>
           <style>
             ${cssContent || ''}
@@ -184,7 +185,21 @@ async function saveChat(request) {
   await KV.put(`saved-chat-${formattedDate}`, chat);
 
   // Return a success response
-  return new Response('Chat has been saved.', { status: 200 });
+  return new Response(`
+    <html>
+      <head>
+        <meta http-equiv="refresh" content="3;url=./">
+      </head>
+      <body>
+        <p>Chat is opgeslagen. Met 3 seconden ga je terug...</p>
+      </body>
+    </html>
+  `, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/html'
+    }
+  });
 }
 
 async function clearChat(request) {
@@ -202,7 +217,21 @@ async function clearChat(request) {
     await KV.put('chat', '');
 
     // Return a success response
-    return new Response('Chat history has been cleared.', { status: 200 });
+    return new Response(`
+      <html>
+        <head>
+          <meta http-equiv="refresh" content="3;url=./">
+        </head>
+        <body>
+          <p>Chat is succesvol verwijderd. Met 3 seconden ga je terug...</p>
+        </body>
+      </html>
+    `, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html'
+      }
+    });
   } else {
     // Return an error response if the password is incorrect
     return Response.redirect('https://youtu.be/dQw4w9WgXcQ', 302);
