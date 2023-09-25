@@ -65,9 +65,10 @@ async function handleRequest(request) {
               <input type="text" id="username" name="username" required ${username ? 'readonly' : ''} value="${username || ''}">
             </div>
             <div class="form-row">
-              <label for="chat">Nieuw chat bericht:</label>
-              <input type="text" id="chat" name="chat" required>
+              <label for="chat">Nieuw chat bericht:</label><br>
+              <textarea id="chat" name="chat" required rows="5" cols="50"></textarea>
             </div>
+            <br>
             <button type="submit">Verstuur</button>
           </form>
         </div>
