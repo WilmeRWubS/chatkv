@@ -57,7 +57,7 @@ async function handleRequest(request) {
         </div>
         <div id="content">
           <h1>WhatsWeb</h1>
-          <iframe id="chat-iframe" srcdoc="${chatHistory.map(message => `<p>${message.replace('\n', '<br>')}</p>`).join('')}"></iframe>
+          <iframe id="chat-iframe" srcdoc="${chatHistory.map(message => `<p>${message.replace(/\n/g, '<br>')}</p>`).join('')}"></iframe>
           
           <form method="POST" action="/" class="chat-form">
             <div class="form-row">
@@ -117,10 +117,12 @@ async function handleChatMessage(request) {
     chat = '';
   }
 
-  // Create a new chat message with username (if available), message, and timestamp
-  const newChatValue = `${username ? username + ': ' : ''}${message}\n${amsterdamTime}`;
+  const usernamePart = username ? username + ':\n' : '';
+  const messagePart = message;
+  const timestampPart = amsterdamTime;
 
-  // Append the new message to the chat history with a double newline delimiter
+  const newChatValue = `${usernamePart}${messagePart}\n${timestampPart}`;
+
   chat = chat ? newChatValue + '\n\n' + chat : newChatValue;
 
   // Update the KV with the updated chat history
